@@ -1,0 +1,35 @@
+<nav class="top-bar navbar navbar-expand-lg">
+    <ul class="navbar-nav mr-auto">
+        <li class="navbar-brand mb-0 h1 active">
+            <a class="a" href="/">Power Monitor</a>
+        </li>
+        {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="/past_week">Past Week</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/past_month">Past Month</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/past_year">Past Year</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/statistics">Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/settings">Settings</a>
+            </li>
+        {% endif %}
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item right-nav">
+            <a class="nav-link " href="/logout">Log Out</a>
+        </li>
+        {% else %}
+        <li class="nav-item right-nav">
+            <a class="nav-link " href="/login">Log In</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

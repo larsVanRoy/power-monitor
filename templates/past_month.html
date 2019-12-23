@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Power Monitor</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+    <link rel="stylesheet"  type="text/css" href="/static/custom_css.css">
+</head>
+<body class="text-center">
+    {% include 'navbar.html' %}
+
+    <div align="center" class="container">
+        <h1 class="cover-heading">Past Week</h1>
+        <p class="lead">The following page will give a quick overview of the data of the past month. The data is displayed in daily intervals.
+        In case a tracking for a certain type of data is not activated, no data will be displayed here. </p>
+        <br>
+        <br>
+        <br>
+        {% if El %}
+            <h3>Electricity</h3>
+            <img src="{{ url_for('static', filename='plots/month_plot_El.png') }}">
+            <br>
+            <br>
+        {% endif %}
+        {% if S0 %}
+            <h3>S0</h3>
+            <img src="{{ url_for('static', filename='plots/month_plot_S0.png') }}">
+            <br>
+            <br>
+        {% endif %}
+        {% if g %}
+            <h3>Gas</h3>
+            <img src="{{ url_for('static', filename='plots/month_plot_G.png') }}">
+            <br>
+            <br>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Power Monitor</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+    <link rel="stylesheet"  type="text/css" href="/static/custom_css.css">
+</head>
+<body class="text-center">
+    {% include 'navbar.html' %}
+
+    {%  with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    swal(
+                        'Success',
+                        '{{ message }}',
+                        'success'
+                    )
+                </script>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div align="center" class="container">
+        <h1 class="cover-heading">The monitor that keeps track of generated power.</h1>
+        <p class="lead">This monitor allows you to properly track the generated power. All data is stored within a database up to a full year.
+        The data can be displayed over the ranges of a week, a month and a year. Specific data can be requested (if within the range of the past 365 days).
+        Along with the visual display of the data
+        there are statistics ranging over the entire duration in which data was tracked.</p>
+        <br>
+        <br>
+        <p class="lead">Press the button below to update the database, this operation will only work in case the required settings,
+        being the ip and start-date variables, have been set properly. This process might take a few seconds, as it will also refresh the database and generate
+        all plots.</p>
+        <form action="/update" method="POST">
+            <div class="form-group row">
+                <div class="col-2 offset-5">
+                    <button type="submit" class="btn btn-light btn-block">Update</button>
+                </div>
+            </div>
+        </form>
+      <footer id="footer">
+          <div align="center">
+              <p>Code provided and maintained by <a href="https://github.com/larsVanRoy">Lars Van Roy</a>.</p>
+          </div>
+      </footer>
+    </div>
+</body>
+</html>
