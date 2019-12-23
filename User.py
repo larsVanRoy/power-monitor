@@ -23,7 +23,7 @@ class User:
         con = self.make_connection()
         cursor = con.cursor()
         cursor.execute('SELECT id, name, ip, start, kwhprice, gasprice, track_el, track_g, track_s0'
-                       ' FROM "Users" where id=\'{}\''.format(ord(requested_id)))
+                       ' FROM "users" where id=\'{}\''.format(ord(requested_id)))
         result = cursor.fetchone()
         if result:
             self.user_id = result[0]
@@ -45,7 +45,7 @@ class User:
         encrypted_password = generate_password_hash(password)
         con = self.make_connection()
         cursor = con.cursor()
-        cursor.execute('INSERT INTO "Users" (name, password, track_s0, track_g, track_el, gasprice, kwhprice)'
+        cursor.execute('INSERT INTO "users" (name, password, track_s0, track_g, track_el, gasprice, kwhprice)'
                        'VALUES (\'{}\', \'{}\', False, False, False, 0, 0)'.format(username, encrypted_password))
         con.commit()
 

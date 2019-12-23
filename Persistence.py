@@ -36,7 +36,7 @@ class Persistence:
 
     @staticmethod
     def make_connection():
-        conn = connect(host="localhost", database="YouLessMonitor", user="YouLessAdmin", password="admin")
+        conn = connect(host="localhost", database="youlessmonitor", user="youlessadmin", password="admin")
         return conn
 
     def set_user(self, user):
@@ -50,7 +50,7 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('DELETE FROM "Week_{}"'.format(postfix))
+        cursor.execute('DELETE FROM "week_{}"'.format(postfix))
 
         for day in reversed(range(delta)):
             html = requests.get("http://{}/{}?d={}".format(ip, self.url_appendices[postfix], day + 1)).text
@@ -75,7 +75,7 @@ class Persistence:
                 month = date.split("-")[1]
                 year = "20" + date.split("-")[2]
 
-                cursor.execute('INSERT INTO "Week_{}" VALUES ({}, {}, {}, {}, {})'
+                cursor.execute('INSERT INTO "week_{}" VALUES ({}, {}, {}, {}, {})'
                                .format(postfix, day, month, year, hour, result))
 
         connection.commit()
@@ -84,7 +84,7 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('SELECT year, month, day, hour, {} from "Week_{}"'.format(y_label, postfix))
+        cursor.execute('SELECT year, month, day, hour, {} from "week_{}"'.format(y_label, postfix))
         results = cursor.fetchall()
 
         dates = list()
@@ -120,7 +120,7 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('DELETE FROM "Year_{}"'.format(postfix))
+        cursor.execute('DELETE FROM "year_{}"'.format(postfix))
 
         past_month = month - 1
         if past_month == 0:
@@ -160,7 +160,7 @@ class Persistence:
                     (year == self.start_year and month == self.start_month and day < self.start_day):
                 continue
 
-            cursor.execute('INSERT INTO "Year_{}" VALUES ({}, {}, {}, {})'
+            cursor.execute('INSERT INTO "year_{}" VALUES ({}, {}, {}, {})'
                            .format(postfix, day, month, year, result))
 
         connection.commit()
@@ -169,7 +169,7 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('SELECT year, month, day, {} from "Year_{}" LIMIT 31'.format(y_label, postfix))
+        cursor.execute('SELECT year, month, day, {} from "year_{}" LIMIT 31'.format(y_label, postfix))
         results = cursor.fetchall()
 
         dates = list()
@@ -237,7 +237,7 @@ class Persistence:
         month = int(temp_vals[1])
         day = int(temp_vals[2])
 
-        cursor.execute('SELECT start, ip FROM "Users" WHERE id = \'{}\''.format(ord(user_id)))
+        cursor.execute('SELECT start, ip FROM "users" WHERE id = \'{}\''.format(ord(user_id)))
 
         # get start date
         result = cursor.fetchone()
@@ -296,7 +296,7 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('SELECT query, name, columns from "Statistics"')
+        cursor.execute('SELECT query, name, columns from "statistics"')
         queries = cursor.fetchall()
 
         for i in range(len(queries)):
@@ -312,5 +312,5 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('INSERT INTO "Statistics" VALUES({}, {}, {})'.format(query, name, columns))
+        cursor.execute('INSERT INTO "statistics" VALUES({}, {}, {})'.format(query, name, columns))
         connection.commit()
