@@ -65,7 +65,7 @@ class User:
         return None
 
     def update_settings(self, ip, start_date, enable_el, enable_g, enable_s0, kwhprice, gasprice):
-        operation = 'UPDATE "Users" SET '
+        operation = 'UPDATE "users" SET '
 
         if ip != "":
             operation += "ip = '{}', ".format(ip)
