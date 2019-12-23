@@ -52,7 +52,7 @@ class User:
     def validate_login(self, username, password):
         con = self.make_connection()
         cursor = con.cursor()
-        cursor.execute('SELECT password, id FROM "Users" WHERE name=\'{}\''.format(username))
+        cursor.execute('SELECT password, id FROM "users" WHERE name=\'{}\''.format(username))
         result = cursor.fetchone()
         if result:
             temp_pw = result[0]
