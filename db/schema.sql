@@ -1,6 +1,6 @@
 BEGIN;
 
-CREATE TABLE Users(
+CREATE TABLE users(
   name varchar primary key,
   password varchar not null,
   ip varchar,
@@ -14,13 +14,13 @@ CREATE TABLE Users(
   track_s0 boolean not null
 );
 
-CREATE TABLE Statistics(
+CREATE TABLE statistics(
   query varchar primary key,
   name varchar not null,
   columns varchar[] not null
 );
 
-CREATE TABLE Week_El(
+CREATE TABLE week_el(
   day integer,
   month integer,
   year integer,
@@ -29,7 +29,7 @@ CREATE TABLE Week_El(
   primary key (day, month, year, hour)
 );
 
-CREATE TABLE Week_G(
+CREATE TABLE week_g(
   day integer,
   month integer,
   year integer,
@@ -38,7 +38,7 @@ CREATE TABLE Week_G(
   primary key (day, month, year, hour)
 );
 
-CREATE TABLE Week_S0(
+CREATE TABLE week_s0(
   day integer,
   month integer,
   year integer,
@@ -47,7 +47,7 @@ CREATE TABLE Week_S0(
   primary key (day, month, year, hour)
 );
 
-CREATE TABLE Year_El(
+CREATE TABLE year_el(
   day integer,
   month integer,
   year integer,
@@ -55,7 +55,7 @@ CREATE TABLE Year_El(
   primary key (day, month, year)
 );
 
-CREATE TABLE Year_G(
+CREATE TABLE year_g(
   day integer,
   month integer,
   year integer,
@@ -63,7 +63,7 @@ CREATE TABLE Year_G(
   primary key (day, month, year)
 );
 
-CREATE TABLE Year_S0(
+CREATE TABLE year_s0(
   day integer,
   month integer,
   year integer,
