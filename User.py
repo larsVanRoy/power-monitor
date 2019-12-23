@@ -16,7 +16,7 @@ class User:
 
     @staticmethod
     def make_connection():
-        conn = connect(host="localhost", database="YouLessMonitor", user="YouLessAdmin", password="admin")
+        conn = connect(host="localhost", database="youlessmonitor", user="youlessadmin", password="admin")
         return conn
 
     def get(self, requested_id):
