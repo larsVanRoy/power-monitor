@@ -1,0 +1,4 @@
+CREATE ROLE YouLessAdmin WITH LOGIN PASSWORD 'admin';
+ALTER ROLE YouLessAdmin CREATEDB;
+ALTER ROLE YouLessAdmin SUPERUSER;
+CREATE DATABASE YouLessMonitor owner YouLessAdmin;
