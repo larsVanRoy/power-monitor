@@ -53,7 +53,7 @@ def display_statistics():
     return render_template("statistics.html")
 
 
-@app.route('/statistics', methods=['POST'])
+@app.route('/add_query', methods=['POST'])
 def add_query():
     query_name = request.form.get('query name')
     query = request.form.get('query')
