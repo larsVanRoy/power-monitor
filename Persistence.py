@@ -292,21 +292,24 @@ class Persistence:
             self.plot_month("S0", "watt")
             self.plot_year("S0", "watt")
 
-    def evaluate_statistics(self):
+    def get_statistics(self):
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('SELECT query, name, columns from "statistics"')
+        cursor.execute('SELECT name, query from "statistics"')
         queries = cursor.fetchall()
+
+        result = list()
 
         for i in range(len(queries)):
             query = queries[i]
-            cursor.execute(query)
-            result = cursor.fetchall
+            cursor.execute(query[1])
+            result.append((query[0], cursor.fetchone))
 
-            queries[i] = queries[i] + result
-
-        return queries
+        if len(result) != 0:
+            return result
+        else:
+            return None
 
     def add_query(self, name, query):
         connection = self.make_connection()

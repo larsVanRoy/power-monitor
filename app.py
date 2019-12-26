@@ -50,7 +50,9 @@ def display_past_year():
 
 @app.route('/statistics', methods=['GET'])
 def display_statistics():
-    return render_template("statistics.html")
+    queries = Persistence.get_statistics()
+
+    return render_template("statistics.html", queries=queries)
 
 
 @app.route('/add_query', methods=['POST'])

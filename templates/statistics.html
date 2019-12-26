@@ -20,12 +20,51 @@
 <body class="text-center">
     {% include 'navbar.html' %}
 
+    {%  with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    swal(
+                        'Success',
+                        '{{ message }}',
+                        'success'
+                    )
+                </script>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <div align="center" class="container">
         <h1 class="cover-heading">Statistics</h1>
         <p class="lead">The following page allows you to query the database using sql queries. New queries can be added and existing queries can be deleted or altered.
         For a query to properly be displayed, it should return tuples of values, which will be put into a table. In order for them to be properly and clearly displayed
         one should specify column names. </p>
         <br>
+        <br>
+        <br>
+        <h3>Existing Queries</h3>
+        <div class="container">
+            {% if queries %}
+                {% for query in queries %}
+                    <div class="row">
+                        <div class="offset-3 col-3">
+                            <p>
+                                {{ query.0 }}
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <p>
+                                {{ query.1 }}
+                            </p>
+                        </div>
+                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="row">
+                    <p>No queries have been found.</p>
+                </div>
+            {% endif %}
+        </div>
         <br>
         <br>
         <h3>New Query</h3>
