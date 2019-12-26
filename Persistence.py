@@ -308,9 +308,9 @@ class Persistence:
 
         return queries
 
-    def add_query(self, query, name, columns):
+    def add_query(self, name, query):
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('INSERT INTO "statistics" VALUES({}, {}, {})'.format(query, name, columns))
+        cursor.execute('INSERT INTO "statistics" VALUES({}, {})'.format(name, query))
         connection.commit()

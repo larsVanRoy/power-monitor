@@ -47,9 +47,20 @@ def display_past_year():
     return render_template("past_year.html", El=user.track_el, g=user.track_g, S0=user.track_s0)
 
 
-@app.route('/statistics')
+@app.route('/statistics', methods=['GET'])
 def display_statistics():
     return render_template("statistics.html")
+
+
+@app.route('/statistics', methods=['POST'])
+def add_query():
+    query_name = request.form.get('query name')
+    query = request.form.get('query')
+
+    Persistence.add_query(query_name, query)
+
+    flash("Added query")
+    return redirect(url_for('settings'))
 
 
 @login_required

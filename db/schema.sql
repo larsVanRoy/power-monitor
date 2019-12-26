@@ -15,9 +15,8 @@ CREATE TABLE users(
 );
 
 CREATE TABLE statistics(
-  query varchar primary key,
-  name varchar not null,
-  columns varchar[] not null
+  name varchar primary key,
+  query varchar not null
 );
 
 CREATE TABLE week_el(
