@@ -312,5 +312,5 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('INSERT INTO "statistics" VALUES({}, {})'.format(name, query))
+        cursor.execute('INSERT INTO "statistics" VALUES(\'{}\', \'{}\')'.format(name, query))
         connection.commit()
