@@ -309,7 +309,6 @@ class Persistence:
             if isinstance(temp_result, Decimal):
                 temp_result = round(float(temp_result), 2)
             result.append((query[0], temp_result))
-
         if len(result) != 0:
             return result
         else:
