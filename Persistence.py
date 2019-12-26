@@ -304,7 +304,10 @@ class Persistence:
         for i in range(len(queries)):
             query = queries[i]
             cursor.execute(query[1])
-            result.append((query[0], cursor.fetchone()[0]))
+            temp_result = cursor.fetchone()[0]
+            if isinstance(temp_result, float):
+                temp_result = round(temp_result, 2)
+            result.append((query[0], temp_result))
 
         if len(result) != 0:
             return result
