@@ -304,7 +304,7 @@ class Persistence:
         for i in range(len(queries)):
             query = queries[i]
             cursor.execute(query[1])
-            result.append((query[0], cursor.fetchone))
+            result.append((query[0], cursor.fetchone()))
 
         if len(result) != 0:
             return result
