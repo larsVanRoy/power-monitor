@@ -18,12 +18,13 @@ Persistence = Persistence()
 @login_manager.user_loader
 def load_user(user_id):
     session['id'] = user_id
-    Persistence.set_user(User.get(user_id))
     return User.get(user_id)
 
 
 @app.route('/')
 def main():
+    if 'id' in session:
+        Persistence.set_user(User.get(session['id']))
     return render_template("main.html")
 
 
