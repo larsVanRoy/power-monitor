@@ -24,9 +24,9 @@ class Persistence:
 
         self.url_appendices = dict()
 
-        self.url_appendices['El'] = 'V'
-        self.url_appendices['G'] = 'W'
-        self.url_appendices['S0'] = 'Z'
+        self.url_appendices['el'] = 'V'
+        self.url_appendices['g'] = 'W'
+        self.url_appendices['s0'] = 'Z'
 
         self.start_day = 0
         self.start_month = 0
@@ -272,25 +272,25 @@ class Persistence:
         passed_days = min(delta_day, 7)
 
         if self.user.track_el:
-            self.update_weeks(passed_days, "El", ip)
-            self.update_year(month, day, "El", ip)
-            self.plot_week("El", "watt")
-            self.plot_month("El", "watt")
-            self.plot_year("El", "watt")
+            self.update_weeks(passed_days, "el", ip)
+            self.update_year(month, day, "el", ip)
+            self.plot_week("el", "watt")
+            self.plot_month("el", "watt")
+            self.plot_year("el", "watt")
 
         if self.user.track_g:
-            self.update_weeks(passed_days, "G", ip)
-            self.update_year(month, day, "G", ip)
-            self.plot_week("G", "liters")
-            self.plot_month("G", "liters")
-            self.plot_year("G", "liters")
+            self.update_weeks(passed_days, "g", ip)
+            self.update_year(month, day, "g", ip)
+            self.plot_week("g", "liters")
+            self.plot_month("g", "liters")
+            self.plot_year("g", "liters")
 
         if self.user.track_s0:
-            self.update_weeks(passed_days, "S0", ip)
-            self.update_year(month, day, "S0", ip)
-            self.plot_week("S0", "watt")
-            self.plot_month("S0", "watt")
-            self.plot_year("S0", "watt")
+            self.update_weeks(passed_days, "s0", ip)
+            self.update_year(month, day, "s0", ip)
+            self.plot_week("s0", "watt")
+            self.plot_month("s0", "watt")
+            self.plot_year("s0", "watt")
 
     def get_statistics(self):
         connection = self.make_connection()
@@ -304,7 +304,7 @@ class Persistence:
         for i in range(len(queries)):
             query = queries[i]
             cursor.execute(query[1])
-            result.append((query[0], cursor.fetchone()))
+            result.append((query[0], cursor.fetchone()[0]))
 
         if len(result) != 0:
             return result
