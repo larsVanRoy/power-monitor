@@ -57,11 +57,11 @@
                                 {{ query.1 }}
                             </p>
                         </div>
-                        <div class="col-1">
-                            <button type="submit" class="btn btn-light btn-block">edit</button>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-light btn-block" id="edit">edit</button>
                         </div>
-                        <div class="col-1">
-                            <button type="submit" class="btn btn-light btn-block">remove</button>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-light btn-block" id="remove">remove</button>
                         </div>
                      </div>
                 {% endfor %}
@@ -95,5 +95,12 @@
             </div>
         </form>
     </div>
+    <script>
+        $(function(){
+            $('#edit').click(function() {
+                alert("Hello");
+            });
+        });
+    </script>
 </body>
 </html>
