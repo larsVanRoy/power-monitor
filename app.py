@@ -61,7 +61,7 @@ def add_query():
     Persistence.add_query(query_name, query)
 
     flash("Added query")
-    return redirect(url_for('settings'))
+    return redirect(url_for('statistics'))
 
 
 @login_required
