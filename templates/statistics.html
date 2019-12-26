@@ -93,10 +93,10 @@
         </form>
     </div>
     <script>
-        $(function(){
-            $('#edit').click(function() {
+        $(function() {
+            $('#edit').click(function () {
                 let $row = $(this).parent()    // col div
-                                  .parent();   // row div
+                    .parent();   // row div
                 let $query = $row.find("input").first().val();
                 let $name = $row.find("p").first().text();
                 $("    <div><br><form action=\"/update_query\" method=\"POST\" enctype=\"multipart/form-data\">\n" +
@@ -113,7 +113,7 @@
                     "                </div>\n" +
                     "            </div>\n" +
                     "            <div class=\"form-group row\">\n" +
-                    "                <div class=\"col-2 offset-3\">\n" +
+                    "                <div class=\"col-2 offset-4\">\n" +
                     "                    <button type=\"submit\" class=\"btn btn-light btn-block\">Update query</button>\n" +
                     "                </div>\n" +
                     "                <div class=\"col-2\">\n" +
@@ -122,7 +122,8 @@
                     "            </div>\n" +
                     "        </form><br></div>").insertAfter($row);
             });
-
+        });
+        $(function() {
             $('#hide').click(function() {
                let $row = $(this).parent()  // col div
                                  .parent()  // row div
