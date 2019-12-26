@@ -1,4 +1,5 @@
 from psycopg2 import connect
+from decimal import Decimal
 from datetime import date
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -305,8 +306,8 @@ class Persistence:
             query = queries[i]
             cursor.execute(query[1])
             temp_result = cursor.fetchone()[0]
-            if temp_result.replace(".", "").isdigit():
-                temp_result = str(round(float(temp_result), 2))
+            if isinstance(temp_result, Decimal):
+                temp_result = round(float(temp_result), 2)
             result.append((query[0], temp_result))
 
         if len(result) != 0:
