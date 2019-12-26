@@ -48,14 +48,10 @@
                 {% for query in queries %}
                     <div class="row">
                         <div class="offset-1 col-3">
-                            <p>
-                                {{ query.0 }}
-                            </p>
+                            <p>{{ query.0 }}</p>
                         </div>
                         <div class="col-3">
-                            <p>
-                                {{ query.1 }}
-                            </p>
+                            <p>{{ query.1 }}</p>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-light btn-block" id="edit">edit</button>
@@ -113,7 +109,7 @@
                     "            <div class=\"form-group row\">\n" +
                     "                <label for=\"start-date\" class=\"offset-1 col-3 col-form-label\">Query: </label>\n" +
                     "                <div class=\"col-7\">\n" +
-                    "                    <textarea class=\"form-control\" rows=\"8\" id=\"query\" name=\"query\" value=\" " + $query + "\" required></textarea>\n" +
+                    "                    <textarea class=\"form-control\" rows=\"8\" id=\"query\" name=\"query\" required>" + $query + "</textarea>\n" +
                     "                </div>\n" +
                     "            </div>\n" +
                     "            <div class=\"form-group row\">\n" +
