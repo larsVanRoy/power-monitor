@@ -307,7 +307,7 @@ class Persistence:
             temp_result = cursor.fetchone()[0]
             if temp_result.replace(".", "").isdigit():
                 temp_result = str(round(float(temp_result), 2))
-            result.append((query[0], temp_result))
+            result.append((query[0], temp_result, query[1]))
 
         if len(result) != 0:
             return result

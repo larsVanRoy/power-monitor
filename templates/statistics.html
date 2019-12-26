@@ -63,6 +63,7 @@
                         <div class="col-2">
                             <button type="button" class="btn btn-light btn-block" id="remove">remove</button>
                         </div>
+                        <input type="hidden" id="query" name="query" value="{{ query.2 }}">
                      </div>
                 {% endfor %}
             {% else %}
@@ -98,6 +99,30 @@
     <script>
         $(function(){
             $('#edit').click(function() {
+                let $row = $(this).parent()    // col div
+                                  .parent();   // row div
+                let $name = $row.find("p")[0].text();
+                let $query = $row.find("input")[0].text();
+                ("        <form action=\"/update_query\" method=\"POST\" enctype=\"multipart/form-data\">\n" +
+                    "            <div class=\"form-group row\">\n" +
+                    "                <label for=\"ip\" class=\"offset-1 col-3 col-form-label\">Query name: </label>\n" +
+                    "                <div class=\"col-7\">\n" +
+                    "                    <input type=\"text\" class=\"form-control\" id=\"query name\" name=\"query name\" value=\" " + $name + "\" required>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "            <div class=\"form-group row\">\n" +
+                    "                <label for=\"start-date\" class=\"offset-1 col-3 col-form-label\">Query: </label>\n" +
+                    "                <div class=\"col-7\">\n" +
+                    "                    <textarea class=\"form-control\" rows=\"8\" id=\"query\" name=\"query\" value=\" " + $query + "\" required></textarea>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "            <div class=\"form-group row\">\n" +
+                    "                <div class=\"col-2 offset-5\">\n" +
+                    "                    <button type=\"submit\" class=\"btn btn-light btn-block\">Update settings</button>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "        </form>").insertAfter($row);
+
                 alert("Hello");
             });
         });
