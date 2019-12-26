@@ -196,7 +196,7 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        query = "SELECT year, month , SUM(" + y_label + ") as " + y_label + ", COUNT(month) as count from \"Year_"
+        query = "SELECT year, month , SUM(" + y_label + ") as " + y_label + ", COUNT(month) as count from \"year_"
         query += postfix + "\" group by year, month"
 
         cursor.execute(query)
