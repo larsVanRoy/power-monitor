@@ -101,8 +101,8 @@
             $('#edit').click(function() {
                 let $row = $(this).parent()    // col div
                                   .parent();   // row div
-                let $name = $row.find("p")[0].text();
-                let $query = $row.find("input")[0].text();
+                let $query = $row.find("input").first().val();
+                let $name = $row.find("p").first().text();
                 ("        <form action=\"/update_query\" method=\"POST\" enctype=\"multipart/form-data\">\n" +
                     "            <div class=\"form-group row\">\n" +
                     "                <label for=\"ip\" class=\"offset-1 col-3 col-form-label\">Query name: </label>\n" +
