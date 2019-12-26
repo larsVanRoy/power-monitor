@@ -1,10 +1,11 @@
+
 from flask import Flask, render_template, request, redirect, flash, url_for, session
 from flask_login import LoginManager, login_user, logout_user, login_required
 
 from User import User
 from Persistence import Persistence
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='/home/pi/power-monitor/templates')
 app.config.from_object("Config.Config")
 
 login_manager = LoginManager()
@@ -58,7 +59,10 @@ def settings():
     user = User.get(session['id'])
 
     temp = user.user_start.__str__().split("-")
-    start = temp[1] + '/' + temp[2] + '/' + temp[0]
+    if temp[0] != 'None':
+        start = temp[1] + '/' + temp[2] + '/' + temp[0]
+    else:
+        start = ""
 
     if user.track_el:
         track_el = "checked"
