@@ -305,8 +305,8 @@ class Persistence:
             query = queries[i]
             cursor.execute(query[1])
             temp_result = cursor.fetchone()[0]
-            if isinstance(temp_result, float):
-                temp_result = round(temp_result, 2)
+            if temp_result.replace(".", "").isdigit():
+                temp_result = str(round(float(temp_result), 2))
             result.append((query[0], temp_result))
 
         if len(result) != 0:
