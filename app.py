@@ -1,11 +1,10 @@
-
 from flask import Flask, render_template, request, redirect, flash, url_for, session
 from flask_login import LoginManager, login_user, logout_user, login_required
 
 from User import User
 from Persistence import Persistence
 
-app = Flask(__name__, template_folder='/home/pi/power-monitor/templates')
+app = Flask(__name__)
 app.config.from_object("Config.Config")
 
 login_manager = LoginManager()
@@ -64,7 +63,28 @@ def add_query():
     Persistence.add_query(query_name, query)
 
     flash("Added query")
-    return redirect(url_for('statistics'))
+    return redirect(url_for('display_statistics'))
+
+
+@app.route('/update_query', methods=['POST'])
+def update_query():
+    new_name = request.form.get('query name')
+    new_query = request.form.get('query')
+
+    old_name = request.form.get('orig query name')
+    old_query = request.form.get('orig query')
+
+    if old_name != new_name:
+        Persistence.update_query_name(old_name, new_name)
+
+    if old_query != new_query:
+        Persistence.update_query_query(new_name, new_query)
+
+    flash('Updated query')
+    return redirect(url_for('display_statistics'))
+
+
+
 
 
 @login_required

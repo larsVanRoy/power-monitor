@@ -304,11 +304,15 @@ class Persistence:
 
         for i in range(len(queries)):
             query = queries[i]
-            cursor.execute(query[1])
-            temp_result = cursor.fetchone()[0]
-            if isinstance(temp_result, Decimal):
-                temp_result = round(float(temp_result), 2)
-            result.append((query[0], temp_result, query[1]))
+            try:
+                cursor.execute(query[1])
+                temp_result = cursor.fetchone()[0]
+                print(type(temp_result))
+                if isinstance(temp_result, Decimal) or isinstance(temp_result, float):
+                    temp_result = round(float(temp_result), 2)
+                result.append((query[0], temp_result, query[1]))
+            except:
+                result.append((query[0], "error", query[1]))
         if len(result) != 0:
             return result
         else:
@@ -319,4 +323,18 @@ class Persistence:
         cursor = connection.cursor()
 
         cursor.execute('INSERT INTO "statistics" VALUES(\'{}\', \'{}\')'.format(name, query))
+        connection.commit()
+
+    def update_query_name(self, old_name, new_name):
+        connection = self.make_connection()
+        cursor = connection.cursor()
+
+        cursor.execute('UPDATE "statistics" set name=\'{}\' where name=\'{}\''.format(new_name, old_name))
+        connection.commit()
+
+    def update_query_query(self, name, new_query):
+        connection = self.make_connection()
+        cursor = connection.cursor()
+
+        cursor.execute('UPDATE "statistics" set query=\'{}\' where name=\'{}\''.format(new_query, name))
         connection.commit()

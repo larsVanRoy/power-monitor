@@ -43,14 +43,14 @@
         <br>
         <br>
         <h3>Existing Queries</h3>
-        <div class="container">
             {% if queries %}
+                <div class="container">
                 {% for query in queries %}
                     <div class="row">
-                        <div class="offset-1 col-3">
+                        <div class="offset-2 col-2">
                             <p>{{ query.0 }}</p>
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <p>{{ query.1 }}</p>
                         </div>
                         <div class="col-2">
@@ -62,26 +62,24 @@
                         <input type="hidden" id="query" name="query" value="{{ query.2 }}">
                      </div>
                 {% endfor %}
-            {% else %}
-                <div class="row">
-                    <p>No queries have been found.</p>
                 </div>
+            {% else %}
+                <h5>No queries have been found.</h5>
             {% endif %}
-        </div>
         <br>
         <br>
         <h3>New Query</h3>
         <br>
         <form action="/add_query" method="POST" enctype="multipart/form-data">
             <div class="form-group row">
-                <label for="ip" class="offset-1 col-3 col-form-label">Query name: </label>
-                <div class="col-7">
+                <label for="query name" class="offset-2 col-2 col-form-label">Query name: </label>
+                <div class="col-6">
                     <input type="text" class="form-control" id="query name" name="query name" required>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="start-date" class="offset-1 col-3 col-form-label">Query: </label>
-                <div class="col-7">
+                <label for="start-date" class="offset-2 col-2 col-form-label">Query: </label>
+                <div class="col-6">
                     <textarea class="form-control" rows="8" id="query" name="query" required></textarea>
                 </div>
             </div>
@@ -94,21 +92,21 @@
     </div>
     <script>
         $(function() {
-            $('#edit').click(function () {
+             $(document).on("click", '#edit', function() {
                 let $row = $(this).parent()    // col div
                     .parent();   // row div
                 let $query = $row.find("input").first().val();
                 let $name = $row.find("p").first().text();
                 $("    <div><br><form action=\"/update_query\" method=\"POST\" enctype=\"multipart/form-data\">\n" +
                     "            <div class=\"form-group row\">\n" +
-                    "                <label for=\"ip\" class=\"offset-1 col-3 col-form-label\">Query name: </label>\n" +
-                    "                <div class=\"col-7\">\n" +
-                    "                    <input type=\"text\" class=\"form-control\" id=\"query name\" name=\"query name\" value=\" " + $name + "\" required>\n" +
+                    "                <label for=\"query name\" class=\"offset-2 col-2 col-form-label\">Query name: </label>\n" +
+                    "                <div class=\"col-6\">\n" +
+                    "                    <input type=\"text\" class=\"form-control\" id=\"query name\" name=\"query name\" value=\"" + $name + "\" required>\n" +
                     "                </div>\n" +
                     "            </div>\n" +
                     "            <div class=\"form-group row\">\n" +
-                    "                <label for=\"start-date\" class=\"offset-1 col-3 col-form-label\">Query: </label>\n" +
-                    "                <div class=\"col-7\">\n" +
+                    "                <label for=\"start-date\" class=\"offset-2 col-2 col-form-label\">Query: </label>\n" +
+                    "                <div class=\"col-6\">\n" +
                     "                    <textarea class=\"form-control\" rows=\"8\" id=\"query\" name=\"query\" required>" + $query + "</textarea>\n" +
                     "                </div>\n" +
                     "            </div>\n" +
@@ -116,21 +114,24 @@
                     "                <div class=\"col-2 offset-4\">\n" +
                     "                    <button type=\"submit\" class=\"btn btn-light btn-block\">Update query</button>\n" +
                     "                </div>\n" +
+                    "                <div class=\"col-2\">\n" +
+                    "                    <button type=\"button\" class=\"btn btn-light btn-block\" id=\"hide\">hide</button>\n" +
+                    "                </div>" +
                     "            </div>\n" +
-                    "        </form>\n" +
-                    "        <div class=\"col-2\">\n" +
-                    "            <button type=\"button\" class=\"btn btn-light btn-block\" id=\"hide\">hide</button>\n" +
-                    "        </div>\"<br></div>").insertAfter($row);
+                    "            <input type=\"hidden\" id=\"orig query\" name=\"orig query\" value=\"" + $query + "\">" +
+                    "            <input type=\"hidden\" id=\"orig query name\" name=\"orig query name\" value=\"" + $name + "\">" +
+                    "        </form><br></div>").insertAfter($row);
             });
         });
+    </script>
+    <script>
         $(function() {
-            $('#hide').click(function() {
+            $(document).on("click", '#hide', function() {
                let $row = $(this).parent()  // col div
                                  .parent()  // row div
                                  .parent()  // form div
                                  .parent(); // surrounding div
                 $row.remove();
-                alert("hello");
             });
         });
     </script>

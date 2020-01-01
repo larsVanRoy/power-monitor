@@ -5,7 +5,6 @@ CREATE TABLE users(
   password varchar not null,
   ip varchar,
   start date,
-  price varchar,
   kwhprice varchar not null,
   id serial not null,
   gasprice varchar not null,
