@@ -29,19 +29,19 @@
         <br>
         {% if El %}
             <h3>Electricity</h3>
-            <img src="{{ url_for('static', filename='plots/year_plot_el.png') }}">
+            <img src={{ el_year }}>
             <br>
             <br>
         {% endif %}
         {% if S0 %}
             <h3>S0</h3>
-            <img src="{{ url_for('static', filename='plots/year_plot_s0.png') }}">
+            <img src={{ s_year }}>
             <br>
             <br>
         {% endif %}
         {% if g %}
             <h3>Gas</h3>
-            <img src="{{ url_for('static', filename='plots/year_plot_g.png') }}">
+            <img src={{ g_year }}>
             <br>
             <br>
         {% endif %}

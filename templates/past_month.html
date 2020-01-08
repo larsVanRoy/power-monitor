@@ -29,19 +29,19 @@
         <br>
         {% if El %}
             <h3>Electricity</h3>
-            <img src="{{ url_for('static', filename='plots/month_plot_el.png') }}">
+            <img src={{ el_month }}>
             <br>
             <br>
         {% endif %}
         {% if S0 %}
             <h3>S0</h3>
-            <img src="{{ url_for('static', filename='plots/month_plot_s0.png') }}">
+            <img src={{ s_month }}>
             <br>
             <br>
         {% endif %}
         {% if g %}
             <h3>Gas</h3>
-            <img src="{{ url_for('static', filename='plots/month_plot_g.png') }}">
+            <img src={{ g_month }}>
             <br>
             <br>
         {% endif %}

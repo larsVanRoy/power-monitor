@@ -4,6 +4,8 @@ from datetime import date
 import matplotlib.pyplot as plt
 from datetime import datetime
 import requests
+import os
+import glob
 
 
 class Persistence:
@@ -110,7 +112,7 @@ class Persistence:
             plt.axvline(dates[index], color='r')
         plt.xticks(dates, date_labels, rotation='vertical')
         plt.tight_layout()
-        plt.savefig('static/plots/week_plot_{}.png'.format(postfix))
+        plt.savefig('static/plots/week_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
 
     # this function will update the data in the weeks databases
     # this function is called with a month, which is the index of the month,
@@ -191,7 +193,7 @@ class Persistence:
         plt.ylabel(y_label)
         plt.xticks(dates, rotation='vertical')
         plt.tight_layout()
-        plt.savefig('static/plots/month_plot_{}.png'.format(postfix))
+        plt.savefig('static/plots/month_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
 
     def plot_year(self, postfix, y_label):
         connection = self.make_connection()
@@ -208,8 +210,6 @@ class Persistence:
         date_labels = list()
         i = 0
 
-        print(results)
-
         while i < len(results):
             result = results[i]
             temp = datetime(result[0], result[1], 1)
@@ -225,9 +225,13 @@ class Persistence:
         plt.ylabel(y_label)
         plt.xticks(dates, date_labels, rotation='vertical')
         plt.tight_layout()
-        plt.savefig('static/plots/year_plot_{}.png'.format(postfix))
+        plt.savefig('static/plots/year_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
 
     def update(self, user_id):
+        files = glob.glob('static/plots/*')
+        for f in files:
+            os.remove(f)
+
         connection = self.make_connection()
         cursor = connection.cursor()
 
@@ -307,7 +311,6 @@ class Persistence:
             try:
                 cursor.execute(query[1])
                 temp_result = cursor.fetchone()[0]
-                print(type(temp_result))
                 if isinstance(temp_result, Decimal) or isinstance(temp_result, float):
                     temp_result = round(float(temp_result), 2)
                 result.append((query[0], temp_result, query[1]))

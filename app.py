@@ -4,6 +4,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from User import User
 from Persistence import Persistence
 
+import glob
+
 app = Flask(__name__)
 app.config.from_object("Config.Config")
 
@@ -31,21 +33,84 @@ def main():
 def display_past_week():
     user = User.get(session['id'])
 
-    return render_template("past_week.html", El=user.track_el, g=user.track_g, S0=user.track_s0)
+    temp = glob.glob('static/plots/week_plot_el*')
+    if len(temp) != 0:
+        el_week = temp[0].split("/", maxsplit=1)[1]
+    else:
+        el_week = ''
+
+    temp = glob.glob('static/plots/week_plot_g*')
+    if len(temp) != 0:
+        g_week = temp[0].split("/", maxsplit=1)[1]
+    else:
+        g_week = ''
+
+    temp = glob.glob('static/plots/week_plot_s0*')
+    if len(temp) != 0:
+        s_week = temp[0].split("/", maxsplit=1)[1]
+    else:
+        s_week = ''
+
+    return render_template("past_week.html", El=user.track_el, g=user.track_g, S0=user.track_s0,
+                           el_week=url_for('static', filename=el_week),
+                           g_week=url_for('static', filename=g_week),
+                           s_week=url_for('static', filename=s_week))
 
 
 @app.route('/past_month')
 def display_past_month():
     user = User.get(session['id'])
 
-    return render_template("past_month.html", El=user.track_el, g=user.track_g, S0=user.track_s0)
+    temp = glob.glob('static/plots/month_plot_el*')
+    if len(temp) != 0:
+        el_month = temp[0].split("/", maxsplit=1)[1]
+    else:
+        el_month = ''
+
+    temp = glob.glob('static/plots/month_plot_g*')
+    if len(temp) != 0:
+        g_month = temp[0].split("/", maxsplit=1)[1]
+    else:
+        g_month = ''
+
+    temp = glob.glob('static/plots/month_plot_s0*')
+    if len(temp) != 0:
+        s_month = temp[0].split("/", maxsplit=1)[1]
+    else:
+        s_month = ''
+
+    return render_template("past_month.html", El=user.track_el, g=user.track_g, S0=user.track_s0,
+                           el_month=url_for('static', filename=el_month),
+                           g_month=url_for('static', filename=g_month),
+                           s_month=url_for('static', filename=s_month))
 
 
 @app.route('/past_year')
 def display_past_year():
     user = User.get(session['id'])
 
-    return render_template("past_year.html", El=user.track_el, g=user.track_g, S0=user.track_s0)
+    temp = glob.glob('static/plots/year_plot_el*')
+    if len(temp) != 0:
+        el_year = temp[0].split("/", maxsplit=1)[1]
+    else:
+        el_year = ''
+
+    temp = glob.glob('static/plots/year_plot_g*')
+    if len(temp) != 0:
+        g_year = temp[0].split("/", maxsplit=1)[1]
+    else:
+        g_year = ''
+
+    temp = glob.glob('static/plots/year_plot_s0*')
+    if len(temp) != 0:
+        s_year = temp[0].split("/", maxsplit=1)[1]
+    else:
+        s_year = ''
+
+    return render_template("past_year.html", El=user.track_el, g=user.track_g, S0=user.track_s0,
+                           el_year=url_for('static', filename=el_year),
+                           g_year=url_for('static', filename=g_year),
+                           s_year=url_for('static', filename=s_year))
 
 
 @app.route('/statistics', methods=['GET'])
@@ -82,9 +147,6 @@ def update_query():
 
     flash('Updated query')
     return redirect(url_for('display_statistics'))
-
-
-
 
 
 @login_required
