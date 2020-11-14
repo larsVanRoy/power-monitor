@@ -37,6 +37,12 @@ class Persistence:
 
         self.user = None
 
+        self.data_name = dict()
+
+        self.data_name["el"] = "watt"
+        self.data_name["g"] = "liter"
+        self.data_name["s0"] = "watt"
+
     @staticmethod
     def make_connection():
         conn = connect(host="localhost", database="youlessmonitor", user="youlessadmin", password="admin")
@@ -78,8 +84,12 @@ class Persistence:
                 month = date.split("-")[1]
                 year = "20" + date.split("-")[2]
 
-                cursor.execute('INSERT INTO "week_{}" VALUES ({}, {}, {}, {}, {})'
-                               .format(postfix, day, month, year, hour, result))
+                cursor.execute('INSERT INTO "week_{0}" \
+                                SELECT {1}, {2}, {3}, {4}, {5} \
+                                WHERE NOT EXISTS ( \
+                                        SELECT day, month, year, hour FROM "week_{0}" WHERE \
+                                            day = \'{1}\' and month = \'{2}\' and year = \'{3}\' and hour = \'{4}\'\
+                                    );'.format(postfix, day, month, year, hour, result))
 
         connection.commit()
 
@@ -123,8 +133,6 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('DELETE FROM "year_{}"'.format(postfix))
-
         past_month = month - 1
         if past_month == 0:
             past_month = 12
@@ -163,8 +171,12 @@ class Persistence:
                     (year == self.start_year and month == self.start_month and day < self.start_day):
                 continue
 
-            cursor.execute('INSERT INTO "year_{}" VALUES ({}, {}, {}, {})'
-                           .format(postfix, day, month, year, result))
+            cursor.execute('INSERT INTO "year_{0}" \
+                            SELECT {1}, {2}, {3}, {4} \
+                            WHERE NOT EXISTS ( \
+                                    SELECT day, month, year, hour FROM "year_{0}" WHERE \
+                                        day = \'{1}\' and month = \'{2}\' and year = \'{3}\'\
+                                );'.format(postfix, day, month, year, result))
 
         connection.commit()
 
@@ -228,6 +240,9 @@ class Persistence:
         plt.savefig('static/plots/year_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
 
     def update(self, user_id):
+        if not os.path.isdir('static/plots'):
+            os.mkdir('static/plots')
+        
         files = glob.glob('static/plots/*')
         for f in files:
             os.remove(f)
