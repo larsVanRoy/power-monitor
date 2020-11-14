@@ -51,10 +51,13 @@ def display_past_week():
     else:
         s_week = ''
 
+    print(el_week)
+    print(g_week)
+
     return render_template("past_week.html", El=user.track_el, g=user.track_g, S0=user.track_s0,
-                           el_week=url_for('static', filename=el_week),
-                           g_week=url_for('static', filename=g_week),
-                           s_week=url_for('static', filename=s_week))
+                           el_week=url_for('static', filename=el_week).replace("%5C", "/"),
+                           g_week=url_for('static', filename=g_week).replace("%5C", "/"),
+                           s_week=url_for('static', filename=s_week).replace("%5C", "/"))
 
 
 @app.route('/past_month')
@@ -80,9 +83,9 @@ def display_past_month():
         s_month = ''
 
     return render_template("past_month.html", El=user.track_el, g=user.track_g, S0=user.track_s0,
-                           el_month=url_for('static', filename=el_month),
-                           g_month=url_for('static', filename=g_month),
-                           s_month=url_for('static', filename=s_month))
+                           el_month=url_for('static', filename=el_month).replace("%5C", "/"),
+                           g_month=url_for('static', filename=g_month).replace("%5C", "/"),
+                           s_month=url_for('static', filename=s_month).replace("%5C", "/"))
 
 
 @app.route('/past_year')
@@ -108,9 +111,9 @@ def display_past_year():
         s_year = ''
 
     return render_template("past_year.html", El=user.track_el, g=user.track_g, S0=user.track_s0,
-                           el_year=url_for('static', filename=el_year),
-                           g_year=url_for('static', filename=g_year),
-                           s_year=url_for('static', filename=s_year))
+                           el_year=url_for('static', filename=el_year).replace("%5C", "/"),
+                           g_year=url_for('static', filename=g_year).replace("%5C", "/"),
+                           s_year=url_for('static', filename=s_year).replace("%5C", "/"))
 
 
 @app.route('/statistics', methods=['GET'])

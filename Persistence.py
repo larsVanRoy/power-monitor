@@ -6,6 +6,7 @@ from datetime import datetime
 import requests
 import os
 import glob
+from pathlib import Path
 
 
 class Persistence:
@@ -122,7 +123,9 @@ class Persistence:
             plt.axvline(dates[index], color='r')
         plt.xticks(dates, date_labels, rotation='vertical')
         plt.tight_layout()
-        plt.savefig('static/plots/week_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
+        plt.savefig('static/plots/week_plot_{}_{}.png'.format(postfix, datetime.now().__str__()
+                                                                       .replace(" ", "_")
+                                                                       .replace(":", "_")))
 
     # this function will update the data in the weeks databases
     # this function is called with a month, which is the index of the month,
@@ -133,22 +136,18 @@ class Persistence:
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        past_month = month - 1
-        if past_month == 0:
-            past_month = 12
-
-        html = requests.get("http://{}/{}?m={}".format(ip, self.url_appendices[postfix], past_month)).text
+        html = requests.get("http://{}/{}?m={}".format(ip, self.url_appendices[postfix], 1)).text
         html = html.split("\n")
         html.pop(0)
         html.pop(-1)
-        del html[:-(self.days_per_month[past_month] - days)]
 
-        html2 = requests.get("http://{}/{}?m={}".format(ip, self.url_appendices[postfix], month)).text
-        html2 = html2.split("\n")
-        html2.pop(0)
-        html2.pop(-1)
+        for i in range(2, 13):
+            html2 = requests.get("http://{}/{}?m={}".format(ip, self.url_appendices[postfix], i)).text
+            html2 = html2.split("\n")
+            html2.pop(0)
+            html2.pop(-1)
 
-        html += html2
+            html += html2
 
         for entry in html:
             # read the data
@@ -167,24 +166,30 @@ class Persistence:
             month = int(date.split("-")[1])
             year = int(date.split("-")[2]) + 2000
 
-            if year < self.start_year or (year == self.start_year and month < self.start_month) or \
-                    (year == self.start_year and month == self.start_month and day < self.start_day):
-                continue
-
             cursor.execute('INSERT INTO "year_{0}" \
                             SELECT {1}, {2}, {3}, {4} \
                             WHERE NOT EXISTS ( \
-                                    SELECT day, month, year, hour FROM "year_{0}" WHERE \
+                                    SELECT day, month, year FROM "year_{0}" WHERE \
                                         day = \'{1}\' and month = \'{2}\' and year = \'{3}\'\
                                 );'.format(postfix, day, month, year, result))
 
         connection.commit()
 
-    def plot_month(self, postfix, y_label):
+    def plot_month(self, day, month, postfix, y_label):
         connection = self.make_connection()
         cursor = connection.cursor()
 
-        cursor.execute('SELECT year, month, day, {} from "year_{}" LIMIT 31'.format(y_label, postfix))
+        print('SELECT year, month, day, {0} from "year_{1}" \
+                       WHERE \
+                       month <= {2}\
+                       ORDER BY year DESC, month DESC, day DESC\
+                       LIMIT 31 OFFSET {3}'.format(y_label, postfix, month, self.days_per_month[month]-day))
+
+        cursor.execute('SELECT year, month, day, {0} from "year_{1}" \
+                       WHERE \
+                       month <= {2}\
+                       ORDER BY year DESC, month DESC, day DESC\
+                       LIMIT 31'.format(y_label, postfix, month))
         results = cursor.fetchall()
 
         dates = list()
@@ -205,7 +210,9 @@ class Persistence:
         plt.ylabel(y_label)
         plt.xticks(dates, rotation='vertical')
         plt.tight_layout()
-        plt.savefig('static/plots/month_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
+        plt.savefig('static/plots/month_plot_{}_{}.png'.format(postfix, datetime.now().__str__()
+                                                               .replace(" ", "_")
+                                                               .replace(":", "_")))
 
     def plot_year(self, postfix, y_label):
         connection = self.make_connection()
@@ -237,12 +244,19 @@ class Persistence:
         plt.ylabel(y_label)
         plt.xticks(dates, date_labels, rotation='vertical')
         plt.tight_layout()
-        plt.savefig('static/plots/year_plot_{}_{}.png'.format(postfix, datetime.now().__str__().replace(" ", "_")))
+        plt.savefig('static/plots/year_plot_{}_{}.png'.format(postfix, datetime.now().__str__()
+                                                               .replace(" ", "_")
+                                                               .replace(":", "_")))
 
     def update(self, user_id):
+        path = os.path.join(".", "static", "plots")
+        print(os.path.isdir(path))
+        path = os.path.join(".", "static")
+        print(os.path.isdir(path))
         if not os.path.isdir('static/plots'):
-            os.mkdir('static/plots')
-        
+            print("Directory Path:", Path().absolute())
+            os.mkdir('./static/plots')
+
         files = glob.glob('static/plots/*')
         for f in files:
             os.remove(f)
@@ -295,21 +309,21 @@ class Persistence:
             self.update_weeks(passed_days, "el", ip)
             self.update_year(month, day, "el", ip)
             self.plot_week("el", "watt")
-            self.plot_month("el", "watt")
+            self.plot_month(day, month, "el", "watt")
             self.plot_year("el", "watt")
 
         if self.user.track_g:
             self.update_weeks(passed_days, "g", ip)
             self.update_year(month, day, "g", ip)
             self.plot_week("g", "liters")
-            self.plot_month("g", "liters")
+            self.plot_month(day, month, "g", "liters")
             self.plot_year("g", "liters")
 
         if self.user.track_s0:
             self.update_weeks(passed_days, "s0", ip)
             self.update_year(month, day, "s0", ip)
             self.plot_week("s0", "watt")
-            self.plot_month("s0", "watt")
+            self.plot_month(day, month, "s0", "watt")
             self.plot_year("s0", "watt")
 
     def get_statistics(self):
